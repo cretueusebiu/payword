@@ -1,0 +1,427 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ac",
+				"action	Attr"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"Bro",
+				"BrokerInterface"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 342.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"insatl",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 382.0
+	},
+	"console":
+	{
+		"height": 594.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Eusebiu/Dropbox/Code/payword"
+	],
+	"file_history":
+	[
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/books/show.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Http/routes.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Http/Controllers/BooksController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Models/User.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/database/migrations/2016_01_05_151626_create_certificates_table.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Payword/Broker.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Models/Book.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Models/Page.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Http/Controllers/Auth/AuthController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RedirectsUsers.php",
+		"/C/Users/Eusebiu/AppData/Local/Temp/fz3temp-1/usercp_profile_photos.tpl",
+		"/C/Users/Eusebiu/AppData/Local/Temp/fz3temp-1/upload_header.php",
+		"/C/Users/Eusebiu/AppData/Local/Temp/fz3temp-1/upload_avatar.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/public/css/app.css",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/database/factories/ModelFactory.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/books/index.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/database/seeds/BookTableSeeder.php",
+		"/C/Users/Eusebiu/Dropbox/Code/elp/ajax.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/vendor/fzaninotto/faker/src/Faker/Provider/Person.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/vendor/fzaninotto/faker/src/Faker/Provider/Image.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/books/view.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/home.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/elp/src/Hazzard/User/Fields.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/database/migrations/2016_01_04_162807_create_books_table.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/layouts/app.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/resources/views/layouts/app.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/app/Http/Controllers/HomeController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/Controllers/HomeController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/config/auth.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/database/migrations/2016_01_04_163024_create_book_pages_table.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/database/seeds/DatabaseSeeder.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/routes.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/resources/views/welcome.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/package.json",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/resources/assets/less/app.less",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/resources/assets/js/app.js",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/vendor/.env",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/Controllers/ApiController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/Kernel.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/Middleware/Authenticate.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Auth/AuthServiceProvider.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Auth/TokenGuard.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Auth/AuthManager.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/config/auth.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Providers/AuthServiceProvider.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/config/app.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Broker/Broker.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Payword/PaywordServiceProvider.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Container/Container.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Broker/BrokerInterface.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/classpreloader/classpreloader/src/Config.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Broker/BrokerServiceProvider.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/mockery/mockery/library/Mockery/Container.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Database/Schema/Blueprint.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/database/migrations/2014_10_12_000000_create_users_table.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/resources/views/home.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/User.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Http/Controllers/Auth/AuthController.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Foundation/Auth/User.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Support/helpers.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/resources/views/welcome.blade.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/app/Providers/RouteServiceProvider.php",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/.env",
+		"/C/Users/Eusebiu/Dropbox/Code/payword/broker/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+		"/C/Users/Cretu Eusebiu/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/C/Users/Cretu Eusebiu/Dropbox/Code/payword/.gitignore",
+		"/C/Users/Cretu Eusebiu/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/C/Users/Cretu Eusebiu/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"redirectPath",
+			"usermeta",
+			"e(",
+			"TokenGuard",
+			"service",
+			"integer("
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "payword.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"user",
+				"vendor\\app\\Models\\User.php"
+			],
+			[
+				"crate_cer",
+				"broker\\database\\migrations\\2016_01_05_151626_create_certificates_table.php"
+			],
+			[
+				"page.",
+				"vendor\\app\\Models\\Page.php"
+			],
+			[
+				"bookco",
+				"vendor\\app\\Http\\Controllers\\BooksController.php"
+			],
+			[
+				"routes.php",
+				"vendor\\app\\Http\\routes.php"
+			],
+			[
+				"redirectsusers",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Auth\\RedirectsUsers.php"
+			],
+			[
+				"authenticatesusers",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Auth\\AuthenticatesUsers.php"
+			],
+			[
+				"authenticatesandregistersusers",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Auth\\AuthenticatesAndRegistersUsers.php"
+			],
+			[
+				"routes",
+				"vendor\\app\\Http\\routes.php"
+			],
+			[
+				"bookta",
+				"vendor\\database\\seeds\\BookTableSeeder.php"
+			],
+			[
+				"mode",
+				"vendor\\database\\factories\\ModelFactory.php"
+			],
+			[
+				"home.b",
+				"vendor\\resources\\views\\home.blade.php"
+			],
+			[
+				"app.blade",
+				"vendor\\resources\\views\\layouts\\app.blade.php"
+			],
+			[
+				"app.b",
+				"broker\\resources\\views\\layouts\\app.blade.php"
+			],
+			[
+				"homecont",
+				"vendor\\app\\Http\\Controllers\\HomeController.php"
+			],
+			[
+				"helpers.php",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\helpers.php"
+			],
+			[
+				"home.",
+				"vendor\\resources\\views\\home.blade.php"
+			],
+			[
+				"homeco",
+				"broker\\app\\Http\\Controllers\\HomeController.php"
+			],
+			[
+				"book",
+				"vendor\\app\\Models\\Book.php"
+			],
+			[
+				"book.php",
+				"vendor\\app\\Models\\Book.php"
+			],
+			[
+				"create_book",
+				"vendor\\database\\migrations\\2016_01_04_162807_create_books_table.php"
+			],
+			[
+				"createbookpa",
+				"vendor\\database\\migrations\\2016_01_04_163024_create_book_pages_table.php"
+			],
+			[
+				"createbo",
+				"vendor\\database\\migrations\\2016_01_04_162807_create_books_table.php"
+			],
+			[
+				"authser",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\AuthServiceProvider.php"
+			],
+			[
+				"authmanag",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\AuthManager.php"
+			],
+			[
+				"ker",
+				"broker\\app\\Http\\Kernel.php"
+			],
+			[
+				"route",
+				"broker\\app\\Http\\routes.php"
+			],
+			[
+				"apico",
+				"broker\\app\\Http\\Controllers\\ApiController.php"
+			],
+			[
+				"app.php",
+				"broker\\config\\app.php"
+			],
+			[
+				"routes.",
+				"broker\\app\\Http\\routes.php"
+			],
+			[
+				"api.",
+				"broker\\app\\Http\\Controllers\\ApiController.php"
+			],
+			[
+				"config",
+				"broker\\vendor\\classpreloader\\classpreloader\\src\\Config.php"
+			],
+			[
+				"container",
+				"broker\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php"
+			],
+			[
+				"authserv",
+				"broker\\app\\Providers\\AuthServiceProvider.php"
+			],
+			[
+				"user.p",
+				"broker\\app\\User.php"
+			],
+			[
+				"layout",
+				"broker\\resources\\views\\layouts\\app.blade.php"
+			],
+			[
+				"user.php",
+				"broker\\app\\User.php"
+			],
+			[
+				"authcont",
+				"broker\\app\\Http\\Controllers\\Auth\\AuthController.php"
+			],
+			[
+				"create_use",
+				"broker\\database\\migrations\\2014_10_12_000000_create_users_table.php"
+			],
+			[
+				"welcome",
+				"broker\\resources\\views\\welcome.blade.php"
+			],
+			[
+				"homecontroller",
+				"broker\\app\\Http\\Controllers\\HomeController.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 240.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
