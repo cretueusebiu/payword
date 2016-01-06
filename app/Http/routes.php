@@ -4,6 +4,8 @@
 Route::group(['domain' => 'broker.payword.app', 'namespace' => 'Broker'], function () {
     Route::group(['middleware' => ['web']], function () {
         Route::get('/', 'HomeController@index');
+        Route::get('settings', 'HomeController@getSettings');
+        Route::post('settings', 'HomeController@postSettings');
         Route::auth();
     });
 
