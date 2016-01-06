@@ -27,7 +27,10 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="#" v-on:click="showSettings"><i class="fa fa-tachometer"></i> Settings</a>
+                                <a href="#" @click.prevent="showSettings"><i class="fa fa-tachometer"></i> Settings</a>
+                            </li>
+                            <li>
+                                <a href="#" @click.prevent="getCertificate">Get Certificate</a>
                             </li>
                         </ul>
                     </div>

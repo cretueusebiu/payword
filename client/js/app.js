@@ -82,21 +82,7 @@ let app = new Vue({
             let message = certificate.substr(0, MESSAGE_LENGTH);
             let signature = certificate.substr(MESSAGE_LENGTH, certificate.length);
 
-            let data = {
-                message: message,
-                signature: signature,
-                public_key: broker.getPublicKey(),
-            };
-
-            // let verifier = crypto.createVerify('sha1');
-
-            // verifier.update(signature);
-
-            // let ver = verifier.verify(broker.getPublicKey(), signature, 'base64');
-
-            // console.log(ver);
-
-            $.post('verify.php', data)
+            this.user.verifyBrokerSignature(message, signature, broker)
                 .done((response) => {
                     if (response == 'good') {
                         this.certificate = certificate;

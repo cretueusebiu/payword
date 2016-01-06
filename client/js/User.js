@@ -6,6 +6,24 @@ class User {
         this.apiToken = apiToken;
     }
 
+    /**
+     * Verify broker signature.
+     *
+     * @param  {string} message
+     * @param  {string} signature
+     * @param  {Broker} broker
+     * @return {Object}
+     */
+    verifyBrokerSignature(message, signature, broker) {
+        let data = {
+            message: message,
+            signature: signature,
+            public_key: broker.getPublicKey(),
+        };
+
+        return $.post('verify.php', data);
+    }
+
     getIdentity() { return this.identity; }
     getPublicKey() { return this.publicKey; }
     getPrivateKey() { return this.privateKey; }
