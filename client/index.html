@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+    <link href="http://broker.payword.app/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://broker.payword.app/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .fa-btn {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <form @submit.prevent="getCertificate">
+                <div class="form-group">
+                    <label for="api_token">Api Token</label>
+                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="rK6E00AW685n9iVSKeWseR3otmyHHFvR">
+                </div>
+
+                <div class="form-group">
+                    <label for="identity">Identity (Email)</label>
+                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="cretu.eusebiu@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="public_key">Public key</label>
+                    <textarea id="public_key" v-model="publicKey" class="form-control">-----BEGIN PUBLIC KEY-----
+MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBbEhPPmCdPdVp2XGROjKMF
+mUVitTu+4Wy/Kmh7FAqGcxdEZgFLnsuQz20YLn3dpLa4v6oHNd1IpM4FSjHgMHv8
+7HqGEiEZDZAfOUMRjCwxPrA7QRaLL0PREIjctga2sQIVzN/fu15DlYEng+kQe2ss
+yPKjrQWIoEbqZml7gcZhJsLUHHfaAJWk01uv7mhPlPG+qNbG8mtXGSf/bZuzQzyQ
+K1VOluMx/sl8/LSGQ956vK1AkLyQs+5mzBxpdaP+BbeWrns6vbAKJQvWzJW1i8Io
+9JEkYB5wwiSYiM5TLK/1pkNSW1658nojFLfQuc20YG0tvjTS+V/p9w/uTkKLNvbF
+AgMBAAE=
+-----END PUBLIC KEY-----</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="private_key">Private key</label>
+                    <textarea id="private_key" v-model="privateKey" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Get certificate</button>
+                </div>
+            </form>
+
+            <div class="alert alert-success" v-show="validCertificate == true">
+                <button type="button" class="close" @click="validCertificate = null">&times;</button>
+                Certificate received.
+            </div>
+
+            <div class="alert alert-danger" v-show="validCertificate == false">
+                <button type="button" class="close" @click="validCertificate = null">&times;</button>
+                Bad certificate received.
+            </div>
+        </div>
+    </div>
+
+    <script src="http://broker.payword.app/js/jquery.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js"></script>
+    <script src="/js/jsrsasign.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

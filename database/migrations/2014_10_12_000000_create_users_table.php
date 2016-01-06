@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->decimal('balance')->default(1000);
             $table->string('api_token')->unique()->nullable();
+            $table->text('public_key')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

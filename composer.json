@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "itsgoingd/clockwork": "^1.10"
+        "itsgoingd/clockwork": "^1.10",
+        "asm89/stack-cors": "dev-master as 0.2.2",
+        "barryvdh/laravel-cors": "^0.7.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
