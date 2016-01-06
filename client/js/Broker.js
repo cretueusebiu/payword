@@ -30,11 +30,15 @@ class Broker {
      * @return {Object}
      */
     fetchCertificate(user, creditLimit) {
+        let rsa = new RSAKey();
+        rsa.readPrivateKeyFromPEMString(user.getPrivateKey());
+        let signature = rsa.signString(user.getIdentity(), 'sha1');
+
         let data = {
-            api_token: user.getApiToken(),
             identity: user.getIdentity(),
             public_key: user.getPublicKey(),
             credit_limit: creditLimit,
+            signature: signature,
         };
 
         return $.post(this.apiUri + '/register', data);
