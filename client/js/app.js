@@ -58,15 +58,11 @@ let app = new Vue({
             let message = certificate.substr(0, MESSAGE_LENGTH);
             let signature = certificate.substr(MESSAGE_LENGTH, certificate.length);
 
-            console.log(certificate.length);
-
             let data = {
                 message: message,
                 signature: signature,
                 public_key: BROKER_PUB_KEY,
             };
-
-            console.log(data);
 
             $.post('verify.php', data)
                 .done((response) => {
@@ -95,20 +91,22 @@ let app = new Vue({
         generateHashChain(vendorIdentity) {
             let currentHashChain = [];
 
-            let cn = crypto.randomBytes(1024);
+            let cn = crypto.randomBytes(20).toString('hex');
 
             let lastPayword = new Payword(cn); // c(n-1)
 
-            currentHashChain.push(lastPayword);
+            currentHashChain.unshift(lastPayword);
 
-            for (let i = 0; i < this.hashChainLength; i++) {
+            for (let i = 0; i < this.hashChainLength - 1; i++) {
                 let currentPayword = new Payword(lastPayword);
-                currentHashChain.push(currentPayword);
+                currentHashChain.unshift(currentPayword);
 
                 lastPayword = currentPayword;
             }
+        },
 
-            console.log('Hash chain generated:', currentHashChain);
+        generatedCommit() {
+
         },
 
         loadData() {

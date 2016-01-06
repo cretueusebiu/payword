@@ -5,7 +5,7 @@ class Payword {
         if (secretOrPayword instanceof Payword) {
             this.secret = sha1(secretOrPayword.getSecret());
         } else {
-            this.secret = sha1(secretOrPayword);
+            this.secret = secretOrPayword;
         }
     }
 
