@@ -3,3 +3,6 @@
 Homestead.yaml
 Homestead.json
 .env
+
+*.sublime-workspace
+*.sublime-project
