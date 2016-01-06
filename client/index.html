@@ -16,25 +16,17 @@
             <form @submit.prevent="getCertificate">
                 <div class="form-group">
                     <label for="api_token">Api Token</label>
-                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="rK6E00AW685n9iVSKeWseR3otmyHHFvR">
+                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="">
                 </div>
 
                 <div class="form-group">
                     <label for="identity">Identity (Email)</label>
-                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="cretu.eusebiu@gmail.com">
+                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="">
                 </div>
 
                 <div class="form-group">
                     <label for="public_key">Public key</label>
-                    <textarea id="public_key" v-model="publicKey" class="form-control">-----BEGIN PUBLIC KEY-----
-MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQBbEhPPmCdPdVp2XGROjKMF
-mUVitTu+4Wy/Kmh7FAqGcxdEZgFLnsuQz20YLn3dpLa4v6oHNd1IpM4FSjHgMHv8
-7HqGEiEZDZAfOUMRjCwxPrA7QRaLL0PREIjctga2sQIVzN/fu15DlYEng+kQe2ss
-yPKjrQWIoEbqZml7gcZhJsLUHHfaAJWk01uv7mhPlPG+qNbG8mtXGSf/bZuzQzyQ
-K1VOluMx/sl8/LSGQ956vK1AkLyQs+5mzBxpdaP+BbeWrns6vbAKJQvWzJW1i8Io
-9JEkYB5wwiSYiM5TLK/1pkNSW1658nojFLfQuc20YG0tvjTS+V/p9w/uTkKLNvbF
-AgMBAAE=
------END PUBLIC KEY-----</textarea>
+                    <textarea id="public_key" v-model="publicKey" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">
