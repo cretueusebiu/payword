@@ -26,6 +26,8 @@ let app = new Vue({
     },
 
     compiled() {
+        this.loadData();
+
         let data = {api_token: this.apiToken};
 
         $.get(BROKER_API + '/public_key', data, null)
@@ -34,6 +36,7 @@ let app = new Vue({
 
     methods: {
         getCertificate() {
+            this.saveData();
             let creditLimit = 100;
 
             let data = {
@@ -49,14 +52,18 @@ let app = new Vue({
         },
 
         verifyCertificate(certificate) {
-            let message = certificate.substr(0, 941);
-            let signature = certificate.substr(941, certificate.length);
+            let message = certificate.substr(0, 941 - 178);
+            let signature = certificate.substr(941 - 178, certificate.length);
+
+            console.log(certificate.length);
 
             let data = {
                 message: message,
                 signature: signature,
                 public_key: BROKER_PUB_KEY,
             };
+
+            console.log(data);
 
             $.post('verify.php', data)
                 .done((response) => {
@@ -100,5 +107,21 @@ let app = new Vue({
 
             console.log('Hash chain generated:', currentHashChain);
         },
+
+        loadData() {
+            let identity = localStorage.getItem("identity");
+            let apiToken = localStorage.getItem("apiToken");
+            let publicKey = localStorage.getItem("publicKey");
+
+            if (identity) this.identity = identity;
+            if (apiToken) this.apiToken = apiToken;
+            if (publicKey) this.publicKey = publicKey;
+        },
+
+        saveData() {
+            localStorage.setItem("identity", this.identity);
+            localStorage.setItem("apiToken", this.apiToken);
+            localStorage.setItem("publicKey", this.publicKey);
+        }
     }
 })

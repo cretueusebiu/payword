@@ -67,8 +67,8 @@ class ApiController extends Controller
         $this->auth->user()->public_key = $request->public_key;
         $this->auth->user()->save();
 
-        $userIdentity = $request->identity;
-        $userPublicKey = $request->public_key;
+        $userIdentity = trim($request->identity);
+        $userPublicKey = trim($request->public_key);
 
         $brokerIdentity = $this->getIdentity();
         $brokerPublicKey = $this->getPublicKey();
