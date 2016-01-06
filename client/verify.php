@@ -1,7 +1,7 @@
 <?php
 
 $data = $_POST['message'];
-$signature = base64_decode($_POST['signature']);
+$signature = hex2bin($_POST['signature']);
 $publicKey = $_POST['public_key'];
 
 $pubKeyFile = tempnam(sys_get_temp_dir(), 'pubkey');

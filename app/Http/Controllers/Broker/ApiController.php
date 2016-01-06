@@ -71,7 +71,7 @@ class ApiController extends Controller
         $pkeyid = openssl_pkey_get_private('file://'.storage_path('rsa_keys/rsa_priv.pem'));
         openssl_sign($data, $signature, $pkeyid, 'sha1WithRSAEncryption');
 
-        $certificate = $data . base64_encode($signature);
+        $certificate = $data . bin2hex($signature);
 
         return $certificate;
     }
