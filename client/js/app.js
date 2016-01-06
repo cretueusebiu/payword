@@ -7,6 +7,8 @@ import Payword from './Payword';
 
 window.$ = window.jQuery = jQuery;
 
+require('bootstrap');
+
 const KEY_LENGTH     = 271;
 const DATA_LENGTH    = 220;
 const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
@@ -24,6 +26,8 @@ let app = new Vue({
         privateKey: null,
         validCertificate: null,
         certificate: null,
+        user: null,
+        saved: false,
 
         hashChainLength: 100,
 
@@ -32,16 +36,32 @@ let app = new Vue({
     },
 
     compiled() {
-        this.loadData();
+        this.user = User.load();
+
+        this.apiToken = this.user.getIdentity();
+        this.identity = this.user.getPublicKey();
+        this.publicKey = this.user.getPrivateKey();
+        this.privateKey = this.user.getApiToken();
+
     },
 
     methods: {
-        getCertificate() {
-            this.saveData();
 
+        saveSettings() {
+            this.user.setIdentity(this.identity);
+            this.user.setPublicKey(this.publicKey);
+            this.user.setPrivateKey(this.privateKey);
+            this.user.setApiToken(this.apiToken);
+            this.user.save();
+            this.saved = true;
+        },
+
+        getCertificate() {
             let creditLimit = 100;
 
             let user = new User(this.identity, this.publicKey, this.privateKey, this.apiToken);
+
+            console.log(JSON.stringify(user));
 
             broker.fetchCertificate(user, creditLimit)
                 .done((certificate) => this.verifyCertificate(certificate))
@@ -111,23 +131,8 @@ let app = new Vue({
 
         },
 
-        loadData() {
-            let identity = localStorage.getItem('identity');
-            let apiToken = localStorage.getItem('apiToken');
-            let publicKey = localStorage.getItem('publicKey');
-            let privateKey = localStorage.getItem('privateKey');
-
-            if (identity) this.identity = identity;
-            if (apiToken) this.apiToken = apiToken;
-            if (publicKey) this.publicKey = publicKey;
-            if (privateKey) this.privateKey = privateKey;
-        },
-
-        saveData() {
-            localStorage.setItem('identity', this.identity);
-            localStorage.setItem('apiToken', this.apiToken);
-            localStorage.setItem('publicKey', this.publicKey);
-            localStorage.setItem('privateKey', this.privateKey);
+        showSettings() {
+            $('#settingsModal').modal('show')
         }
     }
 })

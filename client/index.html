@@ -13,44 +13,53 @@
 <body>
     <div id="app" v-cloak>
         <div class="container">
-            <form @submit.prevent="getCertificate">
-                <div class="form-group">
-                    <label for="api_token">Api Token</label>
-                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="">
+
+        <button type="button" class="btn btn-primary" v-on:click="showSettings">Settings</button>
+
+            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form @submit.prevent="saveSettings">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Client Data</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-success" v-show="saved">
+                                    <button type="button" class="close" @click="saved = !saved">&times;</button>
+                                    Saved!
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="api_token">Api Token</label>
+                                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="identity">Identity (Email)</label>
+                                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="public_key">Public key</label>
+                                    <textarea id="public_key" v-model="publicKey" class="form-control"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="private_key">Private key</label>
+                                    <textarea id="private_key" v-model="privateKey" class="form-control"></textarea>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="identity">Identity (Email)</label>
-                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="">
-                </div>
-
-                <div class="form-group">
-                    <label for="public_key">Public key</label>
-                    <textarea id="public_key" v-model="publicKey" class="form-control"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="private_key">Private key</label>
-                    <textarea id="private_key" v-model="privateKey" class="form-control"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Get certificate</button>
-                </div>
-            </form>
-
-            <div class="alert alert-success" v-show="validCertificate == true">
-                <button type="button" class="close" @click="validCertificate = null">&times;</button>
-                Certificate received.
-            </div>
-
-            <div class="alert alert-danger" v-show="validCertificate == false">
-                <button type="button" class="close" @click="validCertificate = null">&times;</button>
-                Bad certificate received.
             </div>
         </div>
     </div>
-
     <script src="/js/dist.js"></script>
 </body>
 </html>
