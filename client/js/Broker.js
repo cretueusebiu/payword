@@ -1,3 +1,5 @@
+import {RSAKey} from 'jsrsasign';
+
 class Broker {
     /**
      * Create a new broker instance.
