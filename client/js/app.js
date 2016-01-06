@@ -6,6 +6,9 @@ import crypto from 'crypto';
 window.$ = window.jQuery = jQuery;
 
 const BROKER_API = 'http://broker.payword.app/api';
+const KEY_LENGTH = 271;
+const DATA_LENGTH = 220;
+const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
 let BROKER_PUB_KEY = null;
 
 let app = new Vue({
@@ -52,8 +55,8 @@ let app = new Vue({
         },
 
         verifyCertificate(certificate) {
-            let message = certificate.substr(0, 941 - 178);
-            let signature = certificate.substr(941 - 178, certificate.length);
+            let message = certificate.substr(0, MESSAGE_LENGTH);
+            let signature = certificate.substr(MESSAGE_LENGTH, certificate.length);
 
             console.log(certificate.length);
 
