@@ -1,0 +1,11 @@
+body {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.fa-btn {
+    margin-right: 6px;
+}
+
+[v-cloak] {
+    display: none;
+}
