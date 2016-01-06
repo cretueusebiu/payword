@@ -17,8 +17,7 @@ class User {
     setApiToken(val) { this.apiToken = val; }
 
     save() {
-        localStorage.setItem('user', JSON.stringify(
-        {
+        localStorage.setItem('user', JSON.stringify({
             identity : this.identity,
             pubKey : this.publicKey,
             privKey : this.privateKey,
@@ -27,11 +26,13 @@ class User {
     }
 
     static load() {
-        let obj = {};
+        let obj;
 
         try {
             obj = JSON.parse(localStorage.getItem('user'));
-        } catch(e) {console.log(e);}
+        } catch(e) {}
+
+        obj = obj || {};
 
         return new User(obj.identity, obj.pubKey, obj.privKey, obj.apiToken);
     }
