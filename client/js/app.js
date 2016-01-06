@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import jQuery from 'jquery';
-import Payword from './Payword';
 import crypto from 'crypto';
+import User from './User';
+import Broker from './Broker';
+import Payword from './Payword';
 
 window.$ = window.jQuery = jQuery;
 
-const BROKER_API = 'http://broker.payword.app/api';
-const KEY_LENGTH = 271;
-const DATA_LENGTH = 220;
+const KEY_LENGTH     = 271;
+const DATA_LENGTH    = 220;
 const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
-let BROKER_PUB_KEY = null;
+
+let broker = new Broker('http://broker.payword.app/api');
+broker.fetchPublicKey();
 
 let app = new Vue({
     el: '#app',
@@ -17,8 +20,8 @@ let app = new Vue({
     data: {
         apiToken: null,
         identity: null,
-        privateKey: null,
         publicKey: null,
+        privateKey: null,
         validCertificate: null,
         certificate: null,
 
@@ -30,26 +33,17 @@ let app = new Vue({
 
     compiled() {
         this.loadData();
-
-        let data = {api_token: this.apiToken};
-
-        $.get(BROKER_API + '/public_key', data, null)
-            .done(key => BROKER_PUB_KEY = key);
     },
 
     methods: {
         getCertificate() {
             this.saveData();
+
             let creditLimit = 100;
 
-            let data = {
-                api_token: this.apiToken,
-                identity: this.identity,
-                public_key: this.publicKey,
-                credit_limit: creditLimit,
-            };
+            let user = new User(this.identity, this.publicKey, this.privateKey, this.apiToken);
 
-            $.post(BROKER_API + '/register', data)
+            broker.fetchCertificate(user, creditLimit)
                 .done((certificate) => this.verifyCertificate(certificate))
                 .fail((jqXHR) => console.log(jqXHR.responseText));
         },
@@ -61,8 +55,16 @@ let app = new Vue({
             let data = {
                 message: message,
                 signature: signature,
-                public_key: BROKER_PUB_KEY,
+                public_key: broker.getPublicKey(),
             };
+
+            // let verifier = crypto.createVerify('sha1');
+
+            // verifier.update(signature);
+
+            // let ver = verifier.verify(broker.getPublicKey(), signature, 'base64');
+
+            // console.log(ver);
 
             $.post('verify.php', data)
                 .done((response) => {
@@ -110,19 +112,22 @@ let app = new Vue({
         },
 
         loadData() {
-            let identity = localStorage.getItem("identity");
-            let apiToken = localStorage.getItem("apiToken");
-            let publicKey = localStorage.getItem("publicKey");
+            let identity = localStorage.getItem('identity');
+            let apiToken = localStorage.getItem('apiToken');
+            let publicKey = localStorage.getItem('publicKey');
+            let privateKey = localStorage.getItem('privateKey');
 
             if (identity) this.identity = identity;
             if (apiToken) this.apiToken = apiToken;
             if (publicKey) this.publicKey = publicKey;
+            if (privateKey) this.privateKey = privateKey;
         },
 
         saveData() {
-            localStorage.setItem("identity", this.identity);
-            localStorage.setItem("apiToken", this.apiToken);
-            localStorage.setItem("publicKey", this.publicKey);
+            localStorage.setItem('identity', this.identity);
+            localStorage.setItem('apiToken', this.apiToken);
+            localStorage.setItem('publicKey', this.publicKey);
+            localStorage.setItem('privateKey', this.privateKey);
         }
     }
 })

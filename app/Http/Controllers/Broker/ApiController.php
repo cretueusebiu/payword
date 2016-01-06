@@ -26,7 +26,7 @@ class ApiController extends Controller
     {
         $this->auth = $auth->guard('api');
 
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['getPublicKey']]);
     }
 
     public function getIdentity()
