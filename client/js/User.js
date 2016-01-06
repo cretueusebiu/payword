@@ -1,9 +1,14 @@
 class User {
-    constructor(identity, pubKey, privKey, apiToken) {
+    /**
+     * Create a new user instance.
+     * @param  {String} identity
+     * @param  {String} pubKey
+     * @param  {String} privKey
+     */
+    constructor(identity, pubKey, privKey) {
         this.identity = identity;
         this.publicKey = pubKey;
         this.privateKey = privKey;
-        this.apiToken = apiToken;
     }
 
     /**
@@ -27,22 +32,27 @@ class User {
     getIdentity() { return this.identity; }
     getPublicKey() { return this.publicKey; }
     getPrivateKey() { return this.privateKey; }
-    getApiToken() { return this.apiToken; }
 
     setIdentity(val) { this.identity = val; }
     setPublicKey(val) { this.publicKey = val; }
     setPrivateKey(val) { this.privateKey = val; }
-    setApiToken(val) { this.apiToken = val; }
 
+    /**
+     * Save user.
+     */
     save() {
         localStorage.setItem('user', JSON.stringify({
             identity : this.identity,
             pubKey : this.publicKey,
             privKey : this.privateKey,
-            apiToken : this.apiToken
         }));
     }
 
+    /**
+     * Load user.
+     *
+     * @return {User}
+     */
     static load() {
         let obj;
 
@@ -52,7 +62,7 @@ class User {
 
         obj = obj || {};
 
-        return new User(obj.identity, obj.pubKey, obj.privKey, obj.apiToken);
+        return new User(obj.identity, obj.pubKey, obj.privKey);
     }
 }
 

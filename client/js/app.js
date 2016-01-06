@@ -20,7 +20,6 @@ let app = new Vue({
     el: '#app',
 
     data: {
-        apiToken: null,
         identity: null,
         publicKey: null,
         privateKey: null,
@@ -43,7 +42,6 @@ let app = new Vue({
     compiled() {
         this.user = User.load();
 
-        this.apiToken = this.user.getApiToken();
         this.identity = this.user.getIdentity();
         this.publicKey = this.user.getPublicKey();
         this.privateKey = this.user.getPrivateKey();
@@ -63,7 +61,6 @@ let app = new Vue({
             this.user.setIdentity(this.identity);
             this.user.setPublicKey(this.publicKey);
             this.user.setPrivateKey(this.privateKey);
-            this.user.setApiToken(this.apiToken);
             this.user.save();
             this.saved = true;
         },
@@ -71,7 +68,7 @@ let app = new Vue({
         getCertificate() {
             let creditLimit = 100;
 
-            let user = new User(this.identity, this.publicKey, this.privateKey, this.apiToken);
+            let user = new User(this.identity, this.publicKey, this.privateKey);
 
             broker.fetchCertificate(user, creditLimit)
                 .done((certificate) => this.verifyCertificate(certificate))
