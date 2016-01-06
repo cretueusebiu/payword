@@ -31,8 +31,13 @@ let app = new Vue({
 
         hashChainLength: 100,
 
+        books: [],
         paymentsDone: {},
         hashChains: {},
+    },
+
+    ready() {
+        this.getBooks();
     },
 
     compiled() {
@@ -46,6 +51,14 @@ let app = new Vue({
     },
 
     methods: {
+
+        getBooks() {
+            $.get('http://vendor.payword.app/books', (books) => this.books = books);
+        },
+
+        readBook(book) {
+
+        },
 
         saveSettings() {
             this.user.setIdentity(this.identity);

@@ -6,55 +6,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Payword Client</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
-    <link href="http://broker.payword.app/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="http://broker.payword.app/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
 </head>
 <body>
     <div id="app" v-cloak>
+        <div class="navbar navbar-top">
+            <div class="container">
+                <div class="col-md-11">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/" class="navbar-brand"><i class="fa fa-database"></i> Vendor</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#" v-on:click="showSettings"><i class="fa fa-tachometer"></i> Settings</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
+            <div class="col-md-11">
 
-        <button type="button" class="btn btn-primary" v-on:click="showSettings">Settings</button>
+                <div v-if="books.length">
+                    <div class="main" v-for="book in books">
+                        <div class="jumbotron">
+                            <h1 class="title">
+                                {{ book.title }}
+                                <small style="font-size: 40%;">({{book.author}})</small>
+                            </h1>
 
-            <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form @submit.prevent="saveSettings">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Client Data</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="alert alert-success" v-show="saved">
-                                    <button type="button" class="close" @click="saved = !saved">&times;</button>
-                                    Saved!
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img class="cover" v-bind:src="book.cover">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="api_token">Api Token</label>
-                                    <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="identity">Identity (Email)</label>
-                                    <input tyoe="text" id="identity" v-model="identity" class="form-control" value="">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="public_key">Public key</label>
-                                    <textarea id="public_key" v-model="publicKey" class="form-control"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="private_key">Private key</label>
-                                    <textarea id="private_key" v-model="privateKey" class="form-control"></textarea>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <div class="col-md-8">
+                                    <p>{{ book.description }}</p>
                                 </div>
                             </div>
-                        </form>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-success btn-lg" v-on:click="readBook(session)">
+                                        <i class="fa fa-play"></i> Read
+                                    </button>
+
+                                    <button type="button" class="btn btn-success btn-lg pull-right">
+                                        $ {{book.id}}
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form @submit.prevent="saveSettings">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Client Data</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-success" v-show="saved">
+                                        <button type="button" class="close" @click="saved = !saved">&times;</button>
+                                        Saved!
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="api_token">Api Token</label>
+                                        <input tyoe="text" id="api_token" v-model="apiToken" class="form-control" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="identity">Identity (Email)</label>
+                                        <input tyoe="text" id="identity" v-model="identity" class="form-control" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="public_key">Public key</label>
+                                        <textarea id="public_key" v-model="publicKey" class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="private_key">Private key</label>
+                                        <textarea id="private_key" v-model="privateKey" class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
