@@ -18,6 +18,7 @@ class CreateCommitsTable extends Migration
             $table->text('commit');
             $table->string('last_payword');
             $table->integer('page_id')->nullable();
+            $table->integer('book_id');
             $table->timestamps();
         });
     }
