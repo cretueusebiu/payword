@@ -11,15 +11,20 @@ use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
+    /**
+     * Get the broker identity.
+     *
+     * @return string
+     */
     public function getIdentity()
     {
         return 'broker@broker.payword.app';
     }
 
     /**
-     * Show the RSA public key.
+     * Get the broker public RSA key.
      *
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function getPublicKey()
     {
@@ -54,6 +59,7 @@ class ApiController extends Controller
         $expireDate = Carbon::now()->addDay();
         $creditLimit = $request->credit_limit;
 
+        // Verify user identity.
         $userSignature = trim($request->signature);
         if (! $this->verifyIdentity($userIdentity, $userSignature)) {
             return response()->json('Invalid user identity.', 422);
@@ -90,13 +96,11 @@ class ApiController extends Controller
         }
 
         $signature = hex2bin($userSignature);
-
         $pubKeyFile = tempnam(sys_get_temp_dir(), 'pubkey');
 
         file_put_contents($pubKeyFile, $user->public_key);
 
         $pubkeyid = openssl_pkey_get_public('file://'.$pubKeyFile);
-
         $ok = openssl_verify($userIdentity, $signature, $pubkeyid);
 
         unlink($pubKeyFile);
