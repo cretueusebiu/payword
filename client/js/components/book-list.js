@@ -94,7 +94,8 @@ Vue.component('book-list', {
                         this.certificate,
                         this.hashChains[price][0],
                         this.hashChains[price].length,
-                        price
+                        price,
+                        this.book.id
                         )
                     );
 
@@ -109,7 +110,7 @@ Vue.component('book-list', {
                     this.payVendor(response.page_price);
                 })
                 .fail((jqXHR) => {
-                    if (jqXHR.responseStatus == 422) {
+                    if (jqXHR.status == 422) {
                         alert(jqXHR.responseText);
                     }
 
