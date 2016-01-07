@@ -12,7 +12,7 @@ class BookTableSeeder extends Seeder
     public function run()
     {
         factory(App\Models\Book::class, 10)->create()->each(function ($book) {
-            for ($i=0; $i < 100; $i++) {
+            for ($i=0; $i < 10; $i++) {
                 $book->pages()->save(factory(App\Models\Page::class)->make());
             }
         });
