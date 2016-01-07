@@ -29,9 +29,6 @@
                             <li>
                                 <a href="#" @click.prevent="showSettings"><i class="fa fa-tachometer"></i> Settings</a>
                             </li>
-                            <li>
-                                <a href="#" @click.prevent="getCertificate">Get Certificate</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -40,9 +37,9 @@
 
         <div class="container">
             <div class="col-md-11">
-                <book-list></book-list>
+                <book-list :user.sync="user"></book-list>
 
-                <user-settings :user="user"></user-settings>
+                <user-settings :user.sync="user"></user-settings>
             </div>
         </div>
     </div>
