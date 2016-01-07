@@ -1,13 +1,10 @@
 import Vue from 'vue';
 import Vendor from './../Vendor';
 import Broker from './../Broker';
+import Constants from './../Constants';
 
 let vendor = new Vendor();
 let broker = new Broker();
-
-const KEY_LENGTH     = 271;
-const DATA_LENGTH    = 220;
-const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
 
 Vue.component('book-list', {
     template: require('./../../templates/book-list.html'),
@@ -17,7 +14,7 @@ Vue.component('book-list', {
         return {
             books: [],
             hashChains: {},
-            lastPaywords: {},
+            sentPaywords: {},
             book: null,
 
             validCertificate: null,
@@ -55,8 +52,8 @@ Vue.component('book-list', {
         },
 
         verifyCertificate(certificate) {
-            let message = certificate.substr(0, MESSAGE_LENGTH);
-            let signature = certificate.substr(MESSAGE_LENGTH, certificate.length);
+            let message = certificate.substr(0, Constants.CERTIFICATE_MESSAGE_LENGTH);
+            let signature = certificate.substr(Constants.CERTIFICATE_MESSAGE_LENGTH, Constants.SINGATURE_LENGTH);
 
             this.user.verifyBrokerSignature(message, signature, broker)
                 .done((response) => {
@@ -93,29 +90,39 @@ Vue.component('book-list', {
                         )
                     );
 
+                this.sentPaywords[price] = 1;
                 console.log('Generating commit of value ' + price);
             }
 
             console.log('Sending ' + commits.length + ' commits to vendor ...');
             vendor.sendCommits(this.book.id, commits)
                 .done((response) => {
-                    console.log(response);
+                    console.log("User commit signature and broker certificate signature have been verified ...");
+                    this.payVendor(response.page_price);
                 })
-                .fail((jqXHR) => console.log(jqXHR.responseText));
+                .fail((jqXHR) => {
+                    if (jqXHR.responseStatus == 422) {
+                        alert(jqXHR.responseText);
+                    }
+
+                    console.log(jqXHR.responseText);
+                });
 
         },
 
-        payVendor() {
-            console.log("Creating");
-            let vendorIdentity = 'vendor@vendor.payword.app';
-            let paymentNo = 0;
+        payVendor(price) {
+            console.log("Sending payment of " + price + " cents ...");
+            vendor.sendPayword(this.book.id, this.user.getIdentity(), this.getPaywordByPrice(price))
+                .done((response) => console.log(response))
+                .fail((jqXHR) => console.log(jqXHR.responseText));
+        },
 
-            // First payment
-            if (!this.paymentsDone.hasOwnProperty(vendorIdentity)) {
-                this.generateHashChain(vendorIdentity);
-            } else {
-                paymentNo = this.paymentsDone[vendorIdentity].length;
-            }
+        // return Payword
+        getPaywordByPrice(price) {
+            let payword = this.hashChains[price][this.sentPaywords[price]];
+            this.sentPaywords[price]++;
+
+            return payword;
         },
     }
 });

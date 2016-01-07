@@ -36,6 +36,10 @@ class Vendor {
         return $.post(this.apiUri + '/books/' + bookId, {commits: commits});
     }
 
+    sendPayword(bookId, userIdentity, payword) {
+        return $.post(this.apiUri + '/books/' + bookId + '/page', {userIdentity: userIdentity, payword: payword});
+    }
+
     getIdentity() {
         return 'vendor@vendor.payword.app';
     }
