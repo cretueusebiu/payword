@@ -23,6 +23,23 @@ class Vendor {
         return $.get(this.apiUri + '/books');
     }
 
+    /**
+     * Fetch book.
+     *
+     * @return {Object}
+     */
+    fetchBook(id) {
+        return $.get(this.apiUri + '/books/' + id);
+    }
+
+    sendCommits(bookId, commits) {
+        return $.post(this.apiUri + '/books/' + bookId, {commits: commits});
+    }
+
+    getIdentity() {
+        return 'vendor@vendor.payword.app';
+    }
+
     static getInsance() { return instance; }
 }
 
