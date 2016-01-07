@@ -3,28 +3,24 @@ import jQuery from 'jquery';
 import crypto from 'crypto';
 import User from './User';
 import Broker from './Broker';
-import Vendor from './Vendor';
 import Payword from './Payword';
+import './components/book-list';
 import './components/user-settings';
 
 window.$ = window.jQuery = jQuery;
-
 require('bootstrap');
 
 const KEY_LENGTH     = 271;
 const DATA_LENGTH    = 220;
 const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
 
-let broker = new Broker('http://broker.payword.app/api');
-let vendor = new Vendor('http://vendor.payword.app/api');
+let broker = new Broker();
 
 let app = new Vue({
     el: '#app',
 
     data: {
         user: null,
-
-        books: [],
 
         validCertificate: null,
         certificate: null,
@@ -37,15 +33,9 @@ let app = new Vue({
 
     ready() {
         broker.fetchPublicKey();
-
-        vendor.fetchBooks().done((books) => this.books = books);
     },
 
     methods: {
-        readBook(book) {
-
-        },
-
         getCertificate() {
             let creditLimit = 100;
 

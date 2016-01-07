@@ -1,14 +1,20 @@
 import {RSAKey} from 'jsrsasign';
 
+let instance = null;
+
 class Broker {
     /**
      * Create a new broker instance.
-     *
-     * @param  {String} uri
      */
     constructor(uri) {
-        this.apiUri = uri;
+        if (!instance) {
+            instance = this;
+        }
+
+        this.apiUri = 'http://broker.payword.app/api';
         this.publicKey = null;
+
+        return instance;
     }
 
     /**

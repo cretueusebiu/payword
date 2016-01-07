@@ -40,40 +40,7 @@
 
         <div class="container">
             <div class="col-md-11">
-
-                <div v-if="books.length">
-                    <div class="main" v-for="book in books">
-                        <div class="jumbotron">
-                            <h1 class="title">
-                                {{ book.title }}
-                                <small style="font-size: 40%;">({{ book.author }})</small>
-                            </h1>
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img class="cover" v-bind:src="book.cover">
-                                </div>
-
-                                <div class="col-md-9">
-                                    <p>{{ book.description }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-success btn-lg" @click="readBook(session)">
-                                        <i class="fa fa-play"></i> Read
-                                    </button>
-
-                                    <button type="button" class="btn btn-success btn-lg pull-right">
-                                        $ {{book.id}}
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                <book-list></book-list>
 
                 <user-settings :user="user"></user-settings>
             </div>
