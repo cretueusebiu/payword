@@ -62,13 +62,14 @@ class User {
      * @param  {Number} hashChainLength
      * @return {String}
      */
-    generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price) {
+    generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price, bookId) {
         let message =   pad(vendorIdentity, Constants.IDENTITY_LENGTH) +
                         certificate +
                         firstPayword.getSecret() +
                         Math.floor(Date.now() / 1000).toString() +
                         pad(hashChainLength.toString(), Constants.HASH_CHAIN_LENGTH) +
-                        pad(price.toString(), Constants.PRICE_LENGTH);
+                        pad(price.toString(), Constants.PRICE_LENGTH) +
+                        pad(bookId.toString(), Constants.BOOK_ID_LENGTH);
 
         let rsa = new RSAKey();
         rsa.readPrivateKeyFromPEMString(this.getPrivateKey());
