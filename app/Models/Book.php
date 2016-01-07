@@ -22,18 +22,36 @@ class Book extends Model
     /**
      * @return \Illuminate\Database\Query\Builder
      */
-    public function pagesPrice()
+    public function price()
     {
-        return $this->pages()->selectRaw('sum(price) as total_price');
+        return $this->pages()
+                    ->selectRaw('book_id, sum(price) as aggregate')
+                    ->groupBy('book_id');
     }
 
     /**
      * Get the book total price.
      *
-     * @return float
+     * @return int
      */
     public function getPrice()
     {
         return $this->pages->sum('price');
+    }
+
+    /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $attributes = parent::toArray();
+
+        if (isset($attributes['price'])) {
+            $attributes['price'] = (int) $attributes['price'][0]['aggregate'];
+        }
+
+        return $attributes;
     }
 }

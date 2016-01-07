@@ -23,7 +23,7 @@ class BooksController extends Controller
      */
     public function index()
     {
-        return Book::all();
+        return Book::with('price')->get();
     }
 
     /**
