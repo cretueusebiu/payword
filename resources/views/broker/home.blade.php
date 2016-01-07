@@ -8,7 +8,8 @@
                 <div class="panel-heading">Account Balance</div>
 
                 <div class="panel-body">
-                    <p>You have <b>${{ Auth::user()->balanceInDollars() }}</b>. and <em>${{ Auth::user()->blockedBalanceInDollars() }}</em> blocked.</p>
+                    <p>Balance: <b>${{ Auth::user()->balanceInDollars() }}</b></p>
+                    <p>Blocked: <b>${{ Auth::user()->blockedBalanceInDollars() }}</b></p>
                 </div>
             </div>
         </div>
