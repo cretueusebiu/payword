@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vendor from './../Vendor';
 import Broker from './../Broker';
 import Constants from './../Constants';
+import './book-reader';
 
 let vendor = new Vendor();
 let broker = new Broker();
@@ -16,12 +17,19 @@ Vue.component('book-list', {
             hashChains: {},
             sentPaywords: {},
             book: null,
+            nextPagePrice: null,
 
             validCertificate: null,
             certificate: null,
 
-            hashChainLength: 100,
+            firstPay: true,
         }
+    },
+
+    ready() {
+        this.$on('next-page', () => {
+            this.getPage();
+        });
     },
 
     compiled() {
@@ -113,7 +121,16 @@ Vue.component('book-list', {
         payVendor(price) {
             console.log("Sending payment of " + price + " cents ...");
             vendor.sendPayword(this.book.id, this.user.getIdentity(), this.getPaywordByPrice(price))
-                .done((response) => console.log(response))
+                .done((response) => {
+                    if (this.firstPay) {
+                        this.showReader();
+                        this.firstPay = false;
+                    }
+
+                    this.nextPagePrice = response.next_page;
+                    this.displayPage(response.page);
+                    console.log("Page " + response.page.id + " received ...");
+                })
                 .fail((jqXHR) => console.log(jqXHR.responseText));
         },
 
@@ -124,5 +141,21 @@ Vue.component('book-list', {
 
             return payword;
         },
+
+        getPage() {
+            if (this.nextPagePrice) {
+                this.payVendor(this.nextPagePrice);
+            } else {
+                this.$broadcast('read-done');
+            }
+        },
+
+        showReader() {
+            this.$broadcast('read-book', this.book.title);
+        },
+
+        displayPage(page) {
+            this.$broadcast('show-page', page);
+        }
     }
 });
