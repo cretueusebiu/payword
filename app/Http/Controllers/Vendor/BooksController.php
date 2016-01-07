@@ -100,6 +100,8 @@ class BooksController extends Controller
         $userIdentity = $request->userIdentity;
         $commits = CommitModel::findByUserIdentity($userIdentity);
 
+        $pageId = $commits->first()->page_id;
+        $nextPage = $book->nextPage($pageId);
         $paywordVerified = false;
 
         foreach ($commits as $model) {
@@ -108,6 +110,7 @@ class BooksController extends Controller
             // h(cn) = cn-1
             if (sha1($payword) === $model->last_payword) {
                 $paywordVerified = true;
+                $model->last_payword = $payword;
                 break;
             }
         }
@@ -116,22 +119,15 @@ class BooksController extends Controller
             return response()->json('Invalid payword.', 422);
         }
 
-        $pageId = $commits->first()->page_id;
-
         if (! $currentPage = $book->page($pageId)) {
             return response()->json('Page not found.', 404);
         }
 
-        if (! $nextPage = $book->nextPage($pageId)) {
-            return response()->json('There are no more pages.', 404);
-        }
-
         foreach ($commits as $model) {
-            $model->last_payword = $payword;
-            $model->page_id = $nextPage->id;
+            $model->page_id = $nextPage ? $nextPage->id : null;
             $model->save();
         }
 
-        return $currentPage;
+        return ['page' => $currentPage, 'next_page' => $nextPage ? $nextPage->price : null];
     }
 }
