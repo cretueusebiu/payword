@@ -20,6 +20,24 @@ class Book extends Model
     }
 
     /**
+     * @param  int $id
+     * @return \App\Models\Page|null
+     */
+    public function page($id)
+    {
+        return $this->pages()->find($id);
+    }
+
+    /**
+     * @param  int $id
+     * @return \App\Models\Page|null
+     */
+    public function nextPage($id)
+    {
+        return $this->pages()->where('id', '>', $id)->first();
+    }
+
+    /**
      * @return \Illuminate\Database\Query\Builder
      */
     public function price()
