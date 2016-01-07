@@ -88,4 +88,50 @@ class BooksController extends Controller
 
         return response()->json(['page_price' => $firstPage->price]);
     }
+
+    /**
+     * @param  \App\Models\Book $book
+     * @return \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function verifyPayword(Book $book, Request $request)
+    {
+        $payword = $request->payword; // cn
+        $userIdentity = $request->userIdentity;
+        $commits = CommitModel::findByUserIdentity($userIdentity);
+
+        $paywordVerified = false;
+
+        foreach ($commits as $model) {
+            $commit = new Commit($model->commit);
+
+            // h(cn) = cn-1
+            if (sha1($payword) === $model->last_payword) {
+                $paywordVerified = true;
+                break;
+            }
+        }
+
+        if (! $paywordVerified) {
+            return response()->json('Invalid payword.', 422);
+        }
+
+        $pageId = $commits->first()->page_id;
+
+        if (! $currentPage = $book->page($pageId)) {
+            return response()->json('Page not found.', 404);
+        }
+
+        if (! $nextPage = $book->nextPage($pageId)) {
+            return response()->json('There are no more pages.', 404);
+        }
+
+        foreach ($commits as $model) {
+            $model->last_payword = $payword;
+            $model->page_id = $nextPage->id;
+            $model->save();
+        }
+
+        return $currentPage;
+    }
 }

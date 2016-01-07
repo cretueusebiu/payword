@@ -25,5 +25,6 @@ Route::group(['domain' => 'vendor.payword.app', 'namespace' => 'Vendor'], functi
         Route::get('api/books', 'BooksController@index');
         Route::get('api/books/{book}', 'BooksController@show');
         Route::post('api/books/{book}', 'BooksController@verifyCommits');
+        Route::post('api/books/{book}/page', 'BooksController@verifyPayword');
     });
 });
