@@ -2,6 +2,7 @@ import pad from 'pad';
 import crypto from 'crypto';
 import {RSAKey} from 'jsrsasign';
 import Payword from './Payword';
+import Constants from './Constants';
 
 class User {
     /**
@@ -62,12 +63,12 @@ class User {
      * @return {String}
      */
     generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price) {
-        let message =   pad(vendorIdentity, 100) +
+        let message =   pad(vendorIdentity, Constants.IDENTITY_LENGTH) +
                         certificate +
                         firstPayword.getSecret() +
                         Math.floor(Date.now() / 1000).toString() +
-                        pad(hashChainLength.toString(), 10) +
-                        pad(price.toString(), 10);
+                        pad(hashChainLength.toString(), Constants.HASH_CHAIN_LENGTH) +
+                        pad(price.toString(), Constants.PRICE_LENGTH);
 
         let rsa = new RSAKey();
         rsa.readPrivateKeyFromPEMString(this.getPrivateKey());
