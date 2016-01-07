@@ -30,8 +30,12 @@ class BooksController extends Controller
      * @param  \App\Models\Book $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show($id)
     {
+        $book = Book::with('prices')->find($id);
+
         return $book;
+
+        return $book->load('prices');
     }
 }
