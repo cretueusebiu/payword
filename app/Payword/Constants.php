@@ -9,6 +9,7 @@ class Constants
     const PAYWORD_LENGTH = 40;
     const DATE_LENGTH = 10;
     const PRICE_LENGTH = 10;
+    const BOOK_ID_LENGTH = 10;
     const HASH_CHAIN_LENGTH = 10;
     const RSA_KEY_LENGTH = 271;
     const CERTIFICATE_LENGTH = 1018;
