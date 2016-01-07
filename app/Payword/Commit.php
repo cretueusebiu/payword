@@ -10,6 +10,7 @@ class Commit {
     protected $date;
     protected $hashChainLength;
     protected $price;
+    protected $bookId;
     protected $signature;
 
     /**
@@ -48,6 +49,9 @@ class Commit {
         $this->price = (int) trim(substr($commit, $pos, Constants::PRICE_LENGTH));
         $pos += Constants::PRICE_LENGTH;
 
+        $this->bookId = (int) trim(substr($commit, $pos, Constants::BOOK_ID_LENGTH));
+        $pos += Constants::BOOK_ID_LENGTH;
+
         $this->signature = trim(substr($commit, $pos, Constants::SINGATURE_LENGTH));
     }
 
@@ -69,6 +73,11 @@ class Commit {
     public function getPrice()
     {
         return $this->price;
+    }
+
+    public function getBookId()
+    {
+        return $this->bookId;
     }
 
     public function toString()

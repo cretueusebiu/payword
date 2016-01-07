@@ -49,12 +49,27 @@ class BooksController extends Controller
 
         $commits = [];
 
+        $cbook = null;
+
         foreach ($request->commits as $commit) {
             $commit = new Commit($commit);
 
             if (! $commit->verify()) {
                 return response()->json('Invalid commit signature.', 422);
             }
+
+            if (! $cbook) {
+                $cbook = Book::findOrFail($commit->getBookId());
+
+                if ($commit->getCertificate()->getCreditLimit() != $cbook->getPrice()) {
+                    return response()->json('Invalid book id.', 422);
+                }
+
+                if (CommitModel::findByUserIdentity($commit->getCertificate()->getUserIdentity(), $book->id)->count()) {
+                    return response()->json('Book already open.', 422);
+                }
+            }
+
 
             $commits[] = $commit;
         }
@@ -83,6 +98,7 @@ class BooksController extends Controller
                 'last_payword' => $commit->getFirstPayword(),
                 'user_identity' => $commit->getCertificate()->getUserIdentity(),
                 'page_id' => $firstPage->id,
+                'book_id' => $book->id,
             ]);
         }
 
@@ -98,7 +114,7 @@ class BooksController extends Controller
     {
         $payword = $request->payword; // cn
         $userIdentity = $request->userIdentity;
-        $commits = CommitModel::findByUserIdentity($userIdentity);
+        $commits = CommitModel::findByUserIdentity($userIdentity, $book->id);
 
         $pageId = $commits->first()->page_id;
         $nextPage = $book->nextPage($pageId);
@@ -106,6 +122,10 @@ class BooksController extends Controller
 
         foreach ($commits as $model) {
             $commit = new Commit($model->commit);
+
+            if ($commit->getBookId() != $book->id) {
+                return response()->json('Invalid book id.', 422);
+            }
 
             // h(cn) = cn-1
             if (sha1($payword) === $model->last_payword) {
