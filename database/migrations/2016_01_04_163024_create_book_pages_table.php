@@ -16,7 +16,7 @@ class CreateBookPagesTable extends Migration
             $table->increments('id');
             $table->integer('book_id')->unsigned();
             $table->text('content');
-            $table->decimal('price')->default(0.1);
+            $table->integer('price')->default(1);
             $table->timestamps();
 
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');

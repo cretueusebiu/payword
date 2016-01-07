@@ -23,5 +23,13 @@ class User extends Authenticatable
     /**
      * @var array
      */
-    protected $casts = ['id' => 'integer'];
+    protected $casts = ['id' => 'integer', 'balance' => 'integer' ];
+
+    /**
+     * @return float
+     */
+    public function balanceInDollars()
+    {
+        return $this->balance / 100;
+    }
 }

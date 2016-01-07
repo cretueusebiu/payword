@@ -8,7 +8,7 @@
                 <div class="panel-heading">Account Balance</div>
 
                 <div class="panel-body">
-                    You have ${{ Auth::user()->balance }}.
+                    You have ${{ Auth::user()->balanceInDollars() }}.
                 </div>
             </div>
         </div>

@@ -11,8 +11,8 @@ class BookTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Book::class, 12)->create()->each(function ($book) {
-            for ($i=0; $i < 20; $i++) {
+        factory(App\Models\Book::class, 10)->create()->each(function ($book) {
+            for ($i=0; $i < 100; $i++) {
                 $book->pages()->save(factory(App\Models\Page::class)->make());
             }
         });

@@ -10,4 +10,9 @@ class Page extends Model
      * @var array
      */
     protected $fillable = ['content', 'price'];
+
+    /**
+     * @var array
+     */
+    protected $casts = ['id' => 'integer', 'price' => 'integer' ];
 }

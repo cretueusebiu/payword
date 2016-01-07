@@ -25,7 +25,7 @@ $factory->define(App\Models\Book::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
     return [
-        'price' => $faker->randomElement([0.1, 0.2, 0.5]),
+        'price' => $faker->randomElement([1, 2, 3]),
         'content' => $faker->realText(2000),
     ];
 });

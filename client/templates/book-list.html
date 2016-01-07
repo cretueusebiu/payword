@@ -15,7 +15,9 @@
                     <p>{{ book.description }}</p>
                 </div>
             </div>
+
             <hr>
+
             <div class="row">
                 <div class="col-md-12">
                     <button type="button" class="btn btn-success btn-lg" @click="readBook(session)">
@@ -23,11 +25,10 @@
                     </button>
 
                     <button type="button" class="btn btn-success btn-lg pull-right">
-                        $ {{book.id}}
+                        ${{ book.price / 100 }}
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

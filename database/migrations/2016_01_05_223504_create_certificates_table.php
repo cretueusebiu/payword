@@ -16,7 +16,7 @@ class CreateCertificatesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->decimal('public_key');
-            $table->decimal('credit_limit')->default(0.1);
+            $table->integer('credit_limit')->default(1);
             $table->timestamp('expires_at');
             $table->timestamps();
 
