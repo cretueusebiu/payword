@@ -37,7 +37,7 @@ class Vendor {
     }
 
     sendPayword(bookId, userIdentity, payword) {
-        return $.post(this.apiUri + '/books/' + bookId + '/page', {userIdentity: userIdentity, payword: payword});
+        return $.post(this.apiUri + '/books/' + bookId + '/page', {userIdentity: userIdentity, payword: payword.getSecret()});
     }
 
     getIdentity() {
