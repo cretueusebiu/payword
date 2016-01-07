@@ -1,3 +1,8 @@
+import pad from 'pad';
+import crypto from 'crypto';
+import {RSAKey} from 'jsrsasign';
+import Payword from './Payword';
+
 class User {
     /**
      * Create a new user instance.
@@ -27,6 +32,49 @@ class User {
         };
 
         return $.post('verify.php', data);
+    }
+
+    generateHashChain(hashChainLength) {
+        let currentHashChain = [];
+
+        let cn = crypto.randomBytes(20).toString('hex');
+
+        let lastPayword = new Payword(cn); // c(n-1)
+
+        currentHashChain.unshift(lastPayword);
+
+        for (let i = 0; i < hashChainLength; i++) {
+            let currentPayword = new Payword(lastPayword);
+            currentHashChain.unshift(currentPayword);
+
+            lastPayword = currentPayword;
+        }
+
+        return currentHashChain;
+    }
+
+    /**
+     * [generateCommit description]
+     * @param  {String} vendorIdentity
+     * @param  {String} certificate
+     * @param  {Payword} firstPayword
+     * @param  {Number} hashChainLength
+     * @return {String}
+     */
+    generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price) {
+
+        let message =   pad(vendorIdentity, 100) +
+                        certificate +
+                        firstPayword.getSecret() +
+                        Math.floor(Date.now() / 1000).toString() +
+                        pad(hashChainLength.toString(), 10) +
+                        pad(price.toString(), 10);
+
+        let rsa = new RSAKey();
+        rsa.readPrivateKeyFromPEMString(this.getPrivateKey());
+        let signature = rsa.signString(message, 'sha1');
+
+        return message + signature;
     }
 
     getIdentity() { return this.identity; }
