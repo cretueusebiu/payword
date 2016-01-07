@@ -3,7 +3,9 @@ import jQuery from 'jquery';
 import crypto from 'crypto';
 import User from './User';
 import Broker from './Broker';
+import Vendor from './Vendor';
 import Payword from './Payword';
+import './components/user-settings';
 
 window.$ = window.jQuery = jQuery;
 
@@ -14,63 +16,40 @@ const DATA_LENGTH    = 220;
 const MESSAGE_LENGTH = DATA_LENGTH + 2 * KEY_LENGTH;
 
 let broker = new Broker('http://broker.payword.app/api');
-broker.fetchPublicKey();
+let vendor = new Vendor('http://vendor.payword.app/api');
 
 let app = new Vue({
     el: '#app',
 
     data: {
-        identity: null,
-        publicKey: null,
-        privateKey: null,
+        user: null,
+
+        books: [],
+
         validCertificate: null,
         certificate: null,
-        user: null,
-        saved: false,
 
         hashChainLength: 100,
 
-        books: [],
         paymentsDone: {},
         hashChains: {},
     },
 
     ready() {
-        this.getBooks();
-    },
+        broker.fetchPublicKey();
 
-    compiled() {
-        this.user = User.load();
-
-        this.identity = this.user.getIdentity();
-        this.publicKey = this.user.getPublicKey();
-        this.privateKey = this.user.getPrivateKey();
+        vendor.fetchBooks().done((books) => this.books = books);
     },
 
     methods: {
-
-        getBooks() {
-            $.get('http://vendor.payword.app/books', (books) => this.books = books);
-        },
-
         readBook(book) {
 
-        },
-
-        saveSettings() {
-            this.user.setIdentity(this.identity);
-            this.user.setPublicKey(this.publicKey);
-            this.user.setPrivateKey(this.privateKey);
-            this.user.save();
-            this.saved = true;
         },
 
         getCertificate() {
             let creditLimit = 100;
 
-            let user = new User(this.identity, this.publicKey, this.privateKey);
-
-            broker.fetchCertificate(user, creditLimit)
+            broker.fetchCertificate(this.user, creditLimit)
                 .done((certificate) => this.verifyCertificate(certificate))
                 .fail((jqXHR) => console.log(jqXHR.responseText));
         },
@@ -120,12 +99,8 @@ let app = new Vue({
             }
         },
 
-        generatedCommit() {
-
-        },
-
         showSettings() {
-            $('#settingsModal').modal('show')
+            this.$broadcast('show-settings');
         }
     }
 })

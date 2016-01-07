@@ -21,7 +21,7 @@ Route::group(['domain' => 'vendor.payword.app', 'namespace' => 'Vendor'], functi
     Route::get('/', function () { return 'Nothing here.'; });
 
     Route::group(['middleware' => ['api']], function () {
-        Route::get('books', 'BooksController@index');
-        Route::get('books/{book}', 'BooksController@show');
+        Route::get('api/books', 'BooksController@index');
+        Route::get('api/books/{book}', 'BooksController@show');
     });
 });
