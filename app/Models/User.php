@@ -33,6 +33,14 @@ class User extends Authenticatable
         return $this->balance / 100;
     }
 
+    /**
+     * @return float
+     */
+    public function blockedBalanceInDollars()
+    {
+        return $this->blocked_balance / 100;
+    }
+
     public function blockMoney($amount)
     {
         $this->decrement('balance', $amount);
