@@ -64,16 +64,15 @@ class Book extends Model
 
         if (isset($attributes['prices'])) {
             $prices = [];
+            $totalPrice = 0;
 
             foreach ($attributes['prices'] as $price) {
                 $prices[$price['price']] = $price['count'];
+                $totalPrice += intval($price['price']) * intval($price['count']);
             }
 
             $attributes['prices'] = $prices;
-
-            $attributes['price'] = array_sum(array_map(function ($price) {
-                return $price;
-            }, $prices));
+            $attributes['price'] = $totalPrice;
         }
 
         return $attributes;

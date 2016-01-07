@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Models\Book;
+use App\Payword\Commit;
+use App\Models\Commit as CommitModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client as HttpClient;
 
 class BooksController extends Controller
 {
@@ -30,12 +33,59 @@ class BooksController extends Controller
      * @param  \App\Models\Book $book
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        $book = Book::with('prices')->find($id);
-
-        return $book;
-
         return $book->load('prices');
+    }
+
+    /**
+     * @param  \App\Models\Book $book
+     * @return \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function verifyCommits(Book $book, Request $request)
+    {
+        $this->validate($request, ['commits' => 'required|min:1']);
+
+        $commits = [];
+
+        foreach ($request->commits as $commit) {
+            $commit = new Commit($commit);
+
+            if (! $commit->verify()) {
+                return response()->json('Invalid commit signature.', 422);
+            }
+
+            $commits[] = $commit;
+        }
+
+        // $success = \App\Payword\Broker::blockMoney($commit->getCertificate());
+
+        $client = new HttpClient(['base_uri' => 'http://broker.payword.app/api/']);
+
+        $response = $client->request('POST', 'block_money', [
+            'form_params' => [
+                'certificate' => $commit->getCertificate()->toString()
+            ]
+        ]);
+
+        $success = json_decode((string) $response->getBody());
+
+        if (! $success) {
+            return response()->json('You don\'t enough money in your account.', 422);
+        }
+
+        $firstPage = $book->pages()->first();
+
+        foreach ($commits as $commit) {
+            CommitModel::create([
+                'commit' => $commit->toString(),
+                'last_payword' => $commit->getFirstPayword(),
+                'user_identity' => $commit->getCertificate()->getUserIdentity(),
+                'page_id' => $firstPage->id,
+            ]);
+        }
+
+        return response()->json(['page_price' => $firstPage->price]);
     }
 }

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password', 60);
             $table->integer('balance')->default(10000);
+            $table->integer('blocked_balance')->default(0);
             $table->string('api_token')->unique()->nullable();
             $table->text('public_key')->nullable();
             $table->rememberToken();

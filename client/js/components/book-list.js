@@ -97,7 +97,7 @@ Vue.component('book-list', {
             }
 
             console.log('Sending ' + commits.length + ' commits to vendor ...');
-            vendor.sendCommits(commits)
+            vendor.sendCommits(this.book.id, commits)
                 .done((response) => {
                     console.log(response);
                 })

@@ -32,4 +32,20 @@ class User extends Authenticatable
     {
         return $this->balance / 100;
     }
+
+    public function blockMoney($amount)
+    {
+        $this->decrement('balance', $amount);
+        $this->increment('blocked_balance', $amount);
+    }
+
+    public function withdrawBlockedMoney($amount)
+    {
+        $this->decrement('blocked_balance', $amount);
+    }
+
+    public function deposit($amount)
+    {
+        $this->increment('balance', $amount);
+    }
 }

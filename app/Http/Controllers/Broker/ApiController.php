@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Broker;
 use Auth;
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Certificate;
+use App\Payword\Broker;
+use App\Payword\Certificate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -52,10 +53,8 @@ class ApiController extends Controller
 
         $userIdentity = trim($request->identity);
         $userPublicKey = trim($request->public_key);
-
         $brokerIdentity = $this->getIdentity();
         $brokerPublicKey = $this->getPublicKey();
-
         $expireDate = Carbon::now()->addDay();
         $creditLimit = $request->credit_limit;
 
@@ -65,21 +64,16 @@ class ApiController extends Controller
             return response()->json('Invalid user identity.', 422);
         }
 
-        $data = '';
-        $data .= str_pad($brokerIdentity, 100);
-        $data .= str_pad($userIdentity, 100);
-        $data .= $brokerPublicKey;
-        $data .= $userPublicKey;
-        $data .= str_pad($creditLimit, 10);
-        $data .= $expireDate->timestamp;
+        $privKeyPath = storage_path('rsa_keys/rsa_priv.pem');
 
-        // Sign the data.
-        $pkeyid = openssl_pkey_get_private('file://'.storage_path('rsa_keys/rsa_priv.pem'));
-        openssl_sign($data, $signature, $pkeyid, 'sha1WithRSAEncryption');
+        $certificate =  new Certificate(
+            $brokerIdentity, $userIdentity, $brokerPublicKey,
+            $userPublicKey, $creditLimit, $expireDate
+        );
 
-        $certificate = $data . bin2hex($signature);
+        $certificate->sign($privKeyPath);
 
-        return $certificate;
+        return $certificate->toString();
     }
 
     /**
@@ -120,5 +114,20 @@ class ApiController extends Controller
             'public_key' => 'required',
             'credit_limit' => 'required|min:1',
         ]);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     */
+    public function blockMoney(Request $request)
+    {
+        // TODO: verify vendor identity
+
+        $certificate = Certificate::decode($request->certificate);
+
+        $success = Broker::blockMoney($certificate);
+
+        return response()->json(compact('success'));
     }
 }

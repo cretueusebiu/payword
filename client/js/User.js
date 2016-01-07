@@ -62,7 +62,6 @@ class User {
      * @return {String}
      */
     generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price) {
-
         let message =   pad(vendorIdentity, 100) +
                         certificate +
                         firstPayword.getSecret() +
