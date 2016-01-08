@@ -18,17 +18,14 @@ Vue.component('book-list', {
             sentPaywords: {},
             book: null,
             nextPagePrice: null,
-
-            validCertificate: null,
-            certificate: null,
-
             firstPay: true,
+            certificate: null,
         }
     },
 
     ready() {
         this.$on('next-page', () => {
-            this.getPage();
+            this.nextPage();
         });
 
         this.$on('book-closed', () => {
@@ -41,28 +38,41 @@ Vue.component('book-list', {
     },
 
     methods: {
-
         readBook(book) {
-            console.log("Started reading book : " + book.title + "...");
+            console.log('Started reading book: ' + book.title + '.');
             this.fetchBook(book);
-
         },
 
+        /**
+         * Fetch book from vendor.
+         *
+         * @param  {Object} book
+         */
         fetchBook(book) {
+            console.log('Fetched book info...');
             vendor.fetchBook(book.id).done((book) => {
                 this.book = book;
-                console.log("Fetched book info ...");
-                this.getCertificate(book.price);
+                this.fetchCertificate(book.price);
             });
         },
 
-        getCertificate(creditLimit) {
-            console.log("Requesting certificate from broker ...");
+        /**
+         * Fetch certifiacte from broker.
+         *
+         * @param  {Number} creditLimit
+         */
+        fetchCertificate(creditLimit) {
+            console.log('Requesting certificate from broker...');
             broker.fetchCertificate(this.user, creditLimit)
                 .done((certificate) => this.verifyCertificate(certificate))
                 .fail((jqXHR) => console.log(jqXHR.responseText));
         },
 
+        /**
+         * Verify certificate received from broker.
+         *
+         * @param  {String} certificate
+         */
         verifyCertificate(certificate) {
             let message = certificate.substr(0, Constants.CERTIFICATE_MESSAGE_LENGTH);
             let signature = certificate.substr(Constants.CERTIFICATE_MESSAGE_LENGTH, Constants.SINGATURE_LENGTH);
@@ -71,46 +81,30 @@ Vue.component('book-list', {
                 .done((response) => {
                     if (response == 'good') {
                         this.certificate = certificate;
-                        this.validCertificate = true;
-                        console.log("Certificate from broker is valid ...");
-                        this.firstCommit();
+                        console.log('Certificate from broker is valid.');
+                        this.sendCommit();
                     } else {
-                        this.validCertificate = false;
-                        console.log("Could not verify broker signature ...");
+                        alert('Could not verify broker signature.');
+                        console.log('Could not verify broker signature.');
                     }
                 });
         },
 
-        firstCommit() {
+        /**
+         * Send commit to vendor.
+         */
+        sendCommit() {
             let prices = this.book.prices;
 
-            for (let price in prices) {
-                this.hashChains[price] = this.user.generateHashChain(prices[price]);
-                console.log('Generating hashchain of length ' +
-                    prices[price] + ' and payword value of ' + price);
-            }
+            this.generateHashChains(prices);
 
-            let commits = [];
+            let commits = this.generateCommits(prices);
 
-            for (let price in prices) {
-                commits.push(this.user.generateCommit(
-                        vendor.getIdentity(),
-                        this.certificate,
-                        this.hashChains[price][0],
-                        this.hashChains[price].length,
-                        price,
-                        this.book.id
-                        )
-                    );
+            console.log('Sending ' + commits.length + ' commits to vendor.');
 
-                this.sentPaywords[price] = 1;
-                console.log('Generating commit of value ' + price);
-            }
-
-            console.log('Sending ' + commits.length + ' commits to vendor ...');
             vendor.sendCommits(this.book.id, commits)
                 .done((response) => {
-                    console.log("User commit signature and broker certificate signature have been verified ...");
+                    console.log('User commit signature and broker certificate signature have been verified.');
                     this.payVendor(response.page_price);
                 })
                 .fail((jqXHR) => {
@@ -120,11 +114,54 @@ Vue.component('book-list', {
 
                     console.log(jqXHR.responseText);
                 });
-
         },
 
+        /**
+         * Generate hash chains.
+         *
+         * @param  {Object} prices
+         */
+        generateHashChains(prices) {
+            for (let price in prices) {
+                console.log('Generating hashchain of length ' + prices[price] + ' and payword value of ' + price);
+                this.hashChains[price] = this.user.generateHashChain(prices[price]);
+            }
+        },
+
+        /**
+         * Generate commits for all prices.
+         *
+         * @param  {Object} prices
+         * @return {Array}
+         */
+        generateCommits(prices) {
+            let commits = [];
+
+            for (let price in prices) {
+                commits.push(this.user.generateCommit(
+                    vendor.getIdentity(),
+                    this.certificate,
+                    this.hashChains[price][0],
+                    this.hashChains[price].length,
+                    price,
+                    this.book.id
+                ));
+
+                this.sentPaywords[price] = 1;
+
+                console.log('Generating commit of value ' + price);
+            }
+
+            return commits;
+        },
+
+        /**
+         * Send payword to vendor.
+         *
+         * @param  {Number} price
+         */
         payVendor(price) {
-            console.log("Sending payment of " + price + " cents ...");
+            console.log('Sending payment of ' + price + ' cents ...');
             vendor.sendPayword(this.book.id, this.user.getIdentity(), this.getPaywordByPrice(price))
                 .done((response) => {
                     if (this.firstPay) {
@@ -134,25 +171,30 @@ Vue.component('book-list', {
 
                     this.nextPagePrice = response.next_page;
                     this.displayPage(response.page);
-                    console.log("Page " + response.page.id + " received ...");
+                    console.log('Page with id ' + response.page.id + ' received.');
                 })
                 .fail((jqXHR) => console.log(jqXHR.responseText));
         },
 
-        // return Payword
+        /**
+         * Get payword from hash chains by price.
+         *
+         * @param  {Number} price
+         * @return {Payword}
+         */
         getPaywordByPrice(price) {
             let payword = this.hashChains[price][this.sentPaywords[price]];
             this.sentPaywords[price]++;
-
             return payword;
         },
 
-        getPage() {
+        nextPage() {
             if (this.nextPagePrice) {
                 this.payVendor(this.nextPagePrice);
             } else {
                 this.firstPay = true;
                 this.$broadcast('read-done');
+                console.log('Book finished.');
             }
         },
 
