@@ -52,7 +52,7 @@ body {
 }
 .navbar-top .navbar-brand {
     font-size: 18px;
-    margin-left: -30px !important;
+    margin-left: -15px !important;
 }
 .navbar-top .navbar-brand img {
     display: inline-block;
@@ -112,7 +112,7 @@ body {
 }
 @media (min-width: 768px) {
     .navbar-top .navbar-right {
-        margin-right: -15px;
+        margin-right: 0px;
     }
 
     .jumbotron h1, .jumbotron .h1 {
