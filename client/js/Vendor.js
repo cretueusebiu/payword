@@ -15,7 +15,7 @@ class Vendor {
     }
 
     /**
-     * Fetch vendor books.
+     * Fetch books from server.
      *
      * @return {Object}
      */
@@ -24,20 +24,38 @@ class Vendor {
     }
 
     /**
-     * Fetch book.
+     * Fetch book from server.
      *
+     * @param {Number} id
      * @return {Object}
      */
     fetchBook(id) {
         return $.get(this.apiUri + '/books/' + id);
     }
 
+    /**
+     * Send commits to server.
+     *
+     * @param {Number} bookId
+     * @param {Array} commits
+     * @return {Object}
+     */
     sendCommits(bookId, commits) {
         return $.post(this.apiUri + '/books/' + bookId, {commits: commits});
     }
 
+    /**
+     * Send payword to server.
+     *
+     * @param {Number} bookId
+     * @param {String} userIdentity
+     * @param {Payword} payword
+     * @return {Object}
+     */
     sendPayword(bookId, userIdentity, payword) {
-        return $.post(this.apiUri + '/books/' + bookId + '/page', {userIdentity: userIdentity, payword: payword.getSecret()});
+        let data = {userIdentity: userIdentity, payword: payword.getSecret()};
+
+        return $.post(this.apiUri + '/books/' + bookId + '/page', data);
     }
 
     getIdentity() {

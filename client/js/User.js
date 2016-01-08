@@ -35,6 +35,12 @@ class User {
         return $.post('verify.php', data);
     }
 
+    /**
+     * Generate hash chain.
+     *
+     * @param  {Number} hashChainLength
+     * @return {Array}
+     */
     generateHashChain(hashChainLength) {
         let currentHashChain = [];
 
@@ -55,21 +61,25 @@ class User {
     }
 
     /**
-     * [generateCommit description]
+     * Generate commit.
+     * commit(U) = sigU ( V, C(U), c0, d, info)
+     *
      * @param  {String} vendorIdentity
      * @param  {String} certificate
      * @param  {Payword} firstPayword
      * @param  {Number} hashChainLength
+     * @param  {Number} price
+     * @param  {Number} bookId
      * @return {String}
      */
     generateCommit(vendorIdentity, certificate, firstPayword, hashChainLength, price, bookId) {
-        let message =   pad(vendorIdentity, Constants.IDENTITY_LENGTH) +
-                        certificate +
-                        firstPayword.getSecret() +
-                        Math.floor(Date.now() / 1000).toString() +
-                        pad(hashChainLength.toString(), Constants.HASH_CHAIN_LENGTH) +
-                        pad(price.toString(), Constants.PRICE_LENGTH) +
-                        pad(bookId.toString(), Constants.BOOK_ID_LENGTH);
+        let message =  pad(vendorIdentity, Constants.IDENTITY_LENGTH) +
+                       certificate +
+                       firstPayword.getSecret() +
+                       Math.floor(Date.now() / 1000).toString() +
+                       pad(hashChainLength.toString(), Constants.HASH_CHAIN_LENGTH) +
+                       pad(price.toString(), Constants.PRICE_LENGTH) +
+                       pad(bookId.toString(), Constants.BOOK_ID_LENGTH);
 
         let rsa = new RSAKey();
         rsa.readPrivateKeyFromPEMString(this.getPrivateKey());
