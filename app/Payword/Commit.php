@@ -55,31 +55,51 @@ class Commit {
         $this->signature = trim(substr($commit, $pos, Constants::SINGATURE_LENGTH));
     }
 
+    /**
+     * @return App\Payword\Certificate
+     */
     public function getCertificate()
     {
         return $this->certificate;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstPayword()
     {
         return $this->firstPayword;
     }
 
+    /**
+     * @return int
+     */
     public function getHashChainLength()
     {
         return $this->hashChainLength;
     }
 
+    /**
+     * @return int
+     */
     public function getPrice()
     {
         return $this->price;
     }
 
+    /**
+     * @return int
+     */
     public function getBookId()
     {
         return $this->bookId;
     }
 
+    /**
+     * Get the commit as string.
+     *
+     * @return string
+     */
     public function toString()
     {
         return $this->commit;
@@ -133,6 +153,11 @@ class Commit {
         return $ok === 1;
     }
 
+    /**
+     * Get commit data.
+     *
+     * @return string
+     */
     protected function getData()
     {
         return substr($this->commit, 0, strlen($this->commit) - Constants::SINGATURE_LENGTH);

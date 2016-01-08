@@ -7,6 +7,12 @@ use App\Models\SerialNumber;
 
 class Broker {
 
+    /**
+     * Block user moeny for a give certificate.
+     *
+     * @param  \App\Payword\Certificate $certificate
+     * @return bool
+     */
     public static function blockMoney(Certificate $certificate)
     {
         $identity = $certificate->getUserIdentity();
@@ -25,6 +31,14 @@ class Broker {
     }
 
     // V → B: commit(U), cl, l
+    /**
+     * Redeem money from broker.
+     *
+     * @param  array  $commits
+     * @param  string $userIdentity
+     * @param  string $vendorIdentity
+     * @return void
+     */
     public static function redeem($commits, $userIdentity, $vendorIdentity)
     {
         $amount = 0;
@@ -68,6 +82,14 @@ class Broker {
         $serialNo->delete();
     }
 
+    /**
+     * Trasnfer money between users.
+     *
+     * @param  \App\Models\User $user
+     * @param  \App\Models\User $vendor
+     * @param  int $amount
+     * @return void
+     */
     public static function transfer($user, $vendor, $amount)
     {
         $user->withdrawBlockedMoney($amount);

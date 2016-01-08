@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Certificate {
 
-    /// B, U, KB, KU, exp, info
+    /// B, U, KB, KU, exp, info, serial
     protected $brokerIdentity;
     protected $userIdentity;
     protected $brokerPublicKey;
@@ -41,6 +41,12 @@ class Certificate {
         $this->serialNumber = $serialNumber;
     }
 
+    /**
+     * Sign certificate with private key.
+     *
+     * @param  string $privkeyPath
+     * @return void
+     */
     public function sign($privkeyPath)
     {
         $data = $this->getData();
@@ -51,6 +57,11 @@ class Certificate {
         $this->signature = bin2hex($signature);
     }
 
+    /**
+     * Verify certificate signature with broker RSA pub key.
+     *
+     * @return bool
+     */
     public function verify()
     {
         $signature = hex2bin($this->signature);
@@ -66,26 +77,43 @@ class Certificate {
         return $ok === 1;
     }
 
+    /**
+     * @return string
+     */
     public function getUserPublicKey()
     {
         return $this->userPublicKey;
     }
 
+    /**
+     * @return string
+     */
     public function getUserIdentity()
     {
         return $this->userIdentity;
     }
 
+    /**
+     * @return int
+     */
     public function getCreditLimit()
     {
         return $this->creditLimit;
     }
 
+    /**
+     * @return int
+     */
     public function getSerialNumber()
     {
         return $this->serialNumber;
     }
 
+    /**
+     * Get certificate data.
+     *
+     * @return string
+     */
     protected function getData()
     {
         $data = '';
@@ -100,11 +128,22 @@ class Certificate {
         return $data;
     }
 
+    /**
+     * Get the certificate as string.
+     *
+     * @return string
+     */
     public function toString()
     {
         return $this->getData() . $this->signature;
     }
 
+    /**
+     * Create certificate from string.
+     *
+     * @param  string $certificate
+     * @return $this
+     */
     public static function decode($certificate)
     {
         $pos = 0;
