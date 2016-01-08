@@ -9,12 +9,15 @@ class Commit extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_identity', 'commit', 'last_payword', 'page_id', 'book_id'];
+    protected $fillable = ['user_identity', 'commit', 'last_payword', 'page_id', 'book_id', 'last_payword_pos', 'serial_number'];
 
     /**
      * @var array
      */
-    protected $casts = ['id' => 'integer', 'page_id' => 'integer', 'book_id' => 'integer'];
+    protected $casts = [
+        'id' => 'integer', 'page_id' => 'integer', 'book_id' => 'integer',
+        'last_payword_pos' => 'integer', 'serial_number' => 'integer',
+    ];
 
     /**
      * Find commits by user identity.

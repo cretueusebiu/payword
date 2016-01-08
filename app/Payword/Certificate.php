@@ -13,6 +13,7 @@ class Certificate {
     protected $userPublicKey;
     protected $creditLimit;
     protected $expireDate;
+    protected $serialNumber;
 
     protected $signature;
 
@@ -21,8 +22,10 @@ class Certificate {
      *
      * @return void
      */
-    public function __construct($brokerIdentity, $userIdentity, $brokerPublicKey, $userPublicKey, $creditLimit, $expireDate, $signature = null)
-    {
+    public function __construct(
+        $brokerIdentity, $userIdentity, $brokerPublicKey, $userPublicKey,
+        $creditLimit, $expireDate, $serialNumber, $signature = null
+    ) {
         $this->brokerIdentity = $brokerIdentity;
         $this->userIdentity = $userIdentity;
         $this->brokerPublicKey = $brokerPublicKey;
@@ -35,6 +38,7 @@ class Certificate {
         }
 
         $this->expireDate = $expireDate;
+        $this->serialNumber = $serialNumber;
     }
 
     public function sign($privkeyPath)
@@ -77,6 +81,11 @@ class Certificate {
         return $this->creditLimit;
     }
 
+    public function getSerialNumber()
+    {
+        return $this->serialNumber;
+    }
+
     protected function getData()
     {
         $data = '';
@@ -86,6 +95,7 @@ class Certificate {
         $data .= $this->userPublicKey;
         $data .= str_pad($this->creditLimit, Constants::PRICE_LENGTH);
         $data .= $this->expireDate->timestamp;
+        $data .= $this->serialNumber;
 
         return $data;
     }
@@ -117,11 +127,14 @@ class Certificate {
         $expireDate = (int) trim(substr($certificate, $pos, Constants::DATE_LENGTH));
         $pos += Constants::DATE_LENGTH;
 
+        $serialNumber = (int) trim(substr($certificate, $pos, Constants::SERIAL_NO_LENGTH));
+        $pos += Constants::SERIAL_NO_LENGTH;
+
         $signature = trim(substr($certificate, $pos, Constants::SINGATURE_LENGTH));
 
         return new static(
-            $brokerIdentity, $userIdentity, $brokerPublicKey,
-            $userPublicKey, $creditLimit, $expireDate, $signature
+            $brokerIdentity, $userIdentity, $brokerPublicKey, $userPublicKey,
+            $creditLimit, $expireDate, $serialNumber, $signature
         );
     }
 }

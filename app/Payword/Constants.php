@@ -10,8 +10,9 @@ class Constants
     const DATE_LENGTH = 10;
     const PRICE_LENGTH = 10;
     const BOOK_ID_LENGTH = 10;
+    const SERIAL_NO_LENGTH = 10;
     const HASH_CHAIN_LENGTH = 10;
     const RSA_KEY_LENGTH = 271;
-    const CERTIFICATE_LENGTH = 1018;
-    const CERTIFICATE_MESSAGE_LENGTH = 762;
+    const CERTIFICATE_LENGTH = 1028;
+    const CERTIFICATE_MESSAGE_LENGTH = 772;
 }

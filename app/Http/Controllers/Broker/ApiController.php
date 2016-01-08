@@ -6,6 +6,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Payword\Broker;
+use App\Models\SerialNumber;
 use App\Payword\Certificate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -57,6 +58,9 @@ class ApiController extends Controller
         $brokerPublicKey = $this->getPublicKey();
         $expireDate = Carbon::now()->addDay();
         $creditLimit = $request->credit_limit;
+        $serialNumber = Carbon::now()->timestamp;
+
+        SerialNumber::create(['serial_number' => $serialNumber]);
 
         // Verify user identity.
         $userSignature = trim($request->signature);
@@ -68,7 +72,7 @@ class ApiController extends Controller
 
         $certificate =  new Certificate(
             $brokerIdentity, $userIdentity, $brokerPublicKey,
-            $userPublicKey, $creditLimit, $expireDate
+            $userPublicKey, $creditLimit, $expireDate, $serialNumber
         );
 
         $certificate->sign($privKeyPath);
