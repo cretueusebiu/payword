@@ -30,6 +30,10 @@ Vue.component('book-list', {
         this.$on('next-page', () => {
             this.getPage();
         });
+
+        this.$on('book-closed', () => {
+            this.firstPay = true;
+        });
     },
 
     compiled() {
@@ -147,6 +151,7 @@ Vue.component('book-list', {
             if (this.nextPagePrice) {
                 this.payVendor(this.nextPagePrice);
             } else {
+                this.firstPay = true;
                 this.$broadcast('read-done');
             }
         },

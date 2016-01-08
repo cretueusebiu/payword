@@ -20,7 +20,6 @@ Vue.component('book-reader', {
             $modal.modal('show');
         });
 
-
         this.$on('read-done', (title) => {
             this.page = "THE END OF THE BOOK.";
             this.done = true;
@@ -28,6 +27,10 @@ Vue.component('book-reader', {
 
         this.$on('show-page', (page) => {
             this.page = page.content;
+        });
+
+        $modal.on('hidden.bs.modal', () => {
+            this.$dispatch('book-closed');
         });
     },
 
