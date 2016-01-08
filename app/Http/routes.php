@@ -6,6 +6,7 @@ Route::group(['domain' => 'broker.payword.app', 'namespace' => 'Broker'], functi
         Route::get('/', 'HomeController@index');
         Route::get('settings', 'HomeController@getSettings');
         Route::post('settings', 'HomeController@postSettings');
+        Route::post('redeem', 'HomeController@redeem');
         Route::auth();
     });
 

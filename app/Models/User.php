@@ -47,6 +47,12 @@ class User extends Authenticatable
         $this->increment('blocked_balance', $amount);
     }
 
+    public function unblockMoney($amount)
+    {
+        $this->increment('balance', $amount);
+        $this->decrement('blocked_balance', $amount);
+    }
+
     public function withdrawBlockedMoney($amount)
     {
         $this->decrement('blocked_balance', $amount);
@@ -55,5 +61,10 @@ class User extends Authenticatable
     public function deposit($amount)
     {
         $this->increment('balance', $amount);
+    }
+
+    public function isVendor()
+    {
+        return $this->email == 'vendor@venor.payword.app';
     }
 }

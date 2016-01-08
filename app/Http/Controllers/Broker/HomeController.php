@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Broker;
 
+use App\Payword\Broker;
+use App\Payword\Commit;
 use Illuminate\Http\Request;
+use App\Models\Commit as CommitModel;
 use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
@@ -57,5 +60,28 @@ class HomeController extends Controller
         $user->save();
 
         return redirect()->back()->with('saved', true);
+    }
+
+    /**
+     * Handle the settings form.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function redeem(Request $request)
+    {
+        if (! $request->user()->isVendor()) {
+            return 'Not allowed';
+        }
+
+        $bookIds = CommitModel::groupBy('user_identity', 'book_id')->pluck('user_identity', 'book_id');
+
+        foreach ($bookIds as $book_id => $user_identity) {
+            $commits = CommitModel::where(compact('user_identity', 'book_id'))->get();
+
+            Broker::redeem($commits, $user_identity, $request->user()->email);
+        }
+
+        return redirect()->back();
     }
 }

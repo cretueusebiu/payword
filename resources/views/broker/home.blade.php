@@ -9,7 +9,19 @@
 
                 <div class="panel-body">
                     <p>Balance: <b>${{ Auth::user()->balanceInDollars() }}</b></p>
-                    <p>Blocked: <b>${{ Auth::user()->blockedBalanceInDollars() }}</b></p>
+                    @if (Auth::user()->isVendor())
+                        <form method="POST" action="{{ url('/redeem') }}">
+                            {!! csrf_field() !!}
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-credit-card fa-btn"></i> Redeem Money
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <p>Blocked: <b>${{ Auth::user()->blockedBalanceInDollars() }}</b></p>
+                    @endif
                 </div>
             </div>
         </div>

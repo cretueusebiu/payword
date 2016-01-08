@@ -54,6 +54,10 @@ class BooksController extends Controller
         foreach ($request->commits as $commit) {
             $commit = new Commit($commit);
 
+            if (CommitModel::where('serial_number', $commit->getCertificate()->getSerialNumber())->exists()) {
+                return response()->json('Commit certificate already used.', 422);
+            }
+
             if (! $commit->verify()) {
                 return response()->json('Invalid commit signature.', 422);
             }
@@ -74,17 +78,17 @@ class BooksController extends Controller
             $commits[] = $commit;
         }
 
-        // $success = \App\Payword\Broker::blockMoney($commit->getCertificate());
+        $success = \App\Payword\Broker::blockMoney($commit->getCertificate());
 
-        $client = new HttpClient(['base_uri' => 'http://broker.payword.app/api/']);
+        // $client = new HttpClient(['base_uri' => 'http://broker.payword.app/api/']);
 
-        $response = $client->request('POST', 'block_money', [
-            'form_params' => [
-                'certificate' => $commit->getCertificate()->toString()
-            ]
-        ]);
+        // $response = $client->request('POST', 'block_money', [
+        //     'form_params' => [
+        //         'certificate' => $commit->getCertificate()->toString()
+        //     ]
+        // ]);
 
-        $success = json_decode((string) $response->getBody());
+        // $success = json_decode((string) $response->getBody());
 
         if (! $success) {
             return response()->json('You don\'t enough money in your account.', 422);
@@ -97,6 +101,7 @@ class BooksController extends Controller
                 'commit' => $commit->toString(),
                 'last_payword' => $commit->getFirstPayword(),
                 'user_identity' => $commit->getCertificate()->getUserIdentity(),
+                'serial_number' => $commit->getCertificate()->getSerialNumber(),
                 'page_id' => $firstPage->id,
                 'book_id' => $book->id,
             ]);
@@ -131,6 +136,7 @@ class BooksController extends Controller
             if (sha1($payword) === $model->last_payword) {
                 $paywordVerified = true;
                 $model->last_payword = $payword;
+                $model->last_payword_pos += 1;
                 break;
             }
         }
